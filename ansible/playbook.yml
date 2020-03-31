@@ -1,0 +1,72 @@
+---
+- name: Test Ansible on Azure base VM
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Set facts
+      set_fact: 
+        demo_folder: 'C:\UiPath\Demos\'
+        temp_folder: 'C:\Temp'
+        git_repos: "{{ lookup('env','GIT_REPO_SOURCE_TESTING').split(',') }}"
+        git_token: "{{ lookup('env', 'GIT_TOKEN') }}"
+        license_code: "{{ lookup('env', 'TESTING_LICENSE_CODE') }}"
+        blob_conn_string: "{{ lookup('env', 'BLOB_CONN_STRING') }}"
+
+    # Create required folders
+    - name: Create demo folder
+      win_file:
+        path: "{{ demo_folder }}"
+        state: directory
+
+    - name: Create temp folder
+      win_file:
+        path: "{{ temp_folder }}"
+        state: directory
+
+    - name: Copy PowerShell helper scripts to C:\Temp
+      win_copy:
+        src: PSscripts
+        dest: "{{ temp_folder }}"
+
+
+    - name: Add a PowerShell module
+      win_psmodule:
+        name: Azure.Storage
+        state: present
+
+    #Install SAP Components
+    - name: Install SAP Components
+      win_shell: C:\Temp\PSscripts\Install-SAPGUI.ps1
+
+    #Download UiPath Studio Pro
+    - name: Get UiPath Pro
+      win_shell: C:\Temp\PSscripts\Get-Robot.ps1 -ConnectionString "{{ blob_conn_string }}"
+
+    - name: Install UiPath Studio
+      win_package:
+        path: C:\Temp\UiPathStudio.msi
+        arguments:
+        - /quiet
+        - ADDLOCAL=DesktopFeature,Robot,Packages,Studio,StartupLauncher,RegisterService,JavaBridge,ChromeExtension
+        - CODE='{{ license_code }}'
+        state: present
+        product_id: '{CCB49257-B726-4570-B9C8-7BA2E6F7438A}'
+
+    - name: Set service startup mode to auto and ensure it is started
+      win_service:
+        name: UiRobotSvc
+        start_mode: auto
+        state: started
+
+    - name: Install git client
+      win_chocolatey:
+        name:
+        - git
+        state: present
+
+    - name: Git clone demo repositories
+      win_shell: |
+        cd {{demo_folder}}
+        git clone https://{{git_token}}@github.com/{{ item }}
+      loop:
+        "{{ git_repos }}"
