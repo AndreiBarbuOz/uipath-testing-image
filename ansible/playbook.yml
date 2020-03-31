@@ -11,7 +11,7 @@
         git_token: "{{ lookup('env', 'GIT_TOKEN') }}"
         license_code: "{{ lookup('env', 'TESTING_LICENSE_CODE') }}"
         blob_conn_string: "{{ lookup('env', 'BLOB_CONN_STRING') }}"
-      no_log: yes
+      no_log: True
 
     # Create required folders
     - name: Create demo folder
