@@ -42,6 +42,7 @@
     #Download UiPath Studio Pro
     - name: Get UiPath Pro
       win_shell: C:\Temp\PSscripts\Get-Robot.ps1 -ConnectionString "{{ blob_conn_string }}"
+      no_log: True
 
     - name: Install UiPath Studio
       win_package:
