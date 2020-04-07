@@ -78,6 +78,7 @@
         cd {{demo_folder}}
         git clone https://{{git_token}}@github.com/{{ item }}
       loop: "{{ git_repos }}"
+      no_log: True
       args:
         creates: C:\UiPath\Demos\uipath-testing-demos
 
@@ -87,11 +88,11 @@
       args:
         creates: "C:\\Program Files (x86)\\SAP"
 
-    # install postman
-    - name: Install Postman
+    # install Jenkins
+    - name: Install Jenkins
       win_chocolatey:
         name:
-          - postman
+          - jenkins
         state: present
 
     # install node js

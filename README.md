@@ -1,6 +1,6 @@
 # UiPath demo image
 
-[![Build Status](https://dev.azure.com/andreibarbu0946/DSF/_apis/build/status/AndreiBarbuOz.uipath-demo-image?branchName=master)](https://dev.azure.com/andreibarbu0946/DSF/_build/latest?definitionId=5&branchName=master)
+[![Build Status](https://dev.azure.com/andreibarbu0946/DSF/_apis/build/status/AndreiBarbuOz.uipath-testing-image?branchName=master)](https://dev.azure.com/andreibarbu0946/DSF/_build/latest?definitionId=16&branchName=master)
 
 ## Purpose
 
