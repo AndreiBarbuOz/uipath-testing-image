@@ -59,11 +59,11 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 On the local dev machine, at least `Ansible` and `Packer` should be installed. This can be performed using: 
 
 ```bash
-apt-get update && \
-    apt-get install -y software-properties-common unzip python-pip wget sudo && \
+apt update && \
+    apt install -y software-properties-common unzip python-pip wget sudo && \
     apt-add-repository -y ppa:ansible/ansible && \
-    apt-get update && \
-    apt-get install -y ansible && \
+    apt update && \
+    apt install -y ansible && \
     pip install -U "pywinrm>=0.3.0"
 
 PACKER_VERSION="1.4.4"
