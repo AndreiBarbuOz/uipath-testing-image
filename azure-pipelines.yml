@@ -73,7 +73,7 @@ stages:
                   scriptLocation: inlineScript
                   inlineScript: |
                     MANAGED_IMAGE="/subscriptions/$(testSubscriptionId)/resourceGroups/$(testResourceGroupName)/providers/Microsoft.Compute/images/$(testingManagedImageName)"
-                    az sig image-version create -g $(testResourceGroupName) --gallery-name $(testSharedImageGalleryName) --gallery-image-definition $(testingManagedImageName) --gallery-image-version 0.0.$(Build.BuildId) --managed-image $MANAGED_IMAGE --storage-account-type standard_zrs --target-regions $(targetRegions)
+                    az sig image-version create -g $(testResourceGroupName) --gallery-name $(testSharedImageGalleryName) --gallery-image-definition $(testingManagedImageName) --gallery-image-version 0.0.$(Build.BuildId) --managed-image $MANAGED_IMAGE --storage-account-type standard_zrs
 
   - stage: DeployPrUat
     displayName: Deploy pull request to UAT
@@ -97,7 +97,7 @@ stages:
                   scriptLocation: inlineScript
                   inlineScript: |
                     MANAGED_IMAGE="/subscriptions/$(testSubscriptionId)/resourceGroups/$(testResourceGroupName)/providers/Microsoft.Compute/images/$(testingManagedImageName)"
-                    az sig image-version create -g $(testResourceGroupName) --gallery-name $(testSharedImageGalleryName) --gallery-image-definition $(testingManagedImageName) --gallery-image-version 0.0.$(Build.BuildId) --managed-image $MANAGED_IMAGE --storage-account-type standard_zrs --target-regions $(targetRegions)
+                    az sig image-version create -g $(testResourceGroupName) --gallery-name $(testSharedImageGalleryName) --gallery-image-definition $(testingManagedImageName) --gallery-image-version 0.0.$(Build.BuildId) --managed-image $MANAGED_IMAGE --storage-account-type standard_zrs
 
 
   - stage: DeployProd
