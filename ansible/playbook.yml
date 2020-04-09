@@ -42,6 +42,14 @@
         version: 3.6.8
         state: present
 
+    - name: install pip modules
+      win_shell: |
+        pip install pymongo
+        pip install azure
+        pip install requests
+        pip install azure-mgmt-resource
+        pip install msrestazure
+
     - name: Add Azure Storage PowerShell module
       win_psmodule:
         name: Azure.Storage
