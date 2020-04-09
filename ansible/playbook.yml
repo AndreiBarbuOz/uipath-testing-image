@@ -42,7 +42,15 @@
         version: 3.6.8
         state: present
 
-    - name: Add a PowerShell module
+    - name: install pip modules
+      win_shell: |
+        pip install pymongo
+        pip install azure
+        pip install requests
+        pip install azure-mgmt-resource
+        pip install msrestazure
+
+    - name: Add Azure Storage PowerShell module
       win_psmodule:
         name: Azure.Storage
         state: present
@@ -84,7 +92,7 @@
 
     #Install SAP Components
     - name: Install SAP Components
-      win_shell: "{{ temp_folder }}\\PSscripts\\Install-SAPGUI.ps1"
+      win_shell: C:\Temp\PSscripts\Install-SAPGUI.ps1 -ConnectionString "{{ blob_conn_string }}"
       args:
         creates: "C:\\Program Files (x86)\\SAP"
 
