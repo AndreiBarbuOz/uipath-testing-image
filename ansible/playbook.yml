@@ -7,6 +7,7 @@
       set_fact:
         demo_folder: 'C:\UiPath\Demos\'
         temp_folder: 'C:\Temp'
+        config_folder: 'C:\UiPath\config\'
         git_repos: "{{ lookup('env','GIT_REPO_SOURCE_TESTING').split(',') }}"
         git_token: "{{ lookup('env', 'GIT_TOKEN') }}"
         license_code: "{{ lookup('env', 'TESTING_LICENSE_CODE') }}"
