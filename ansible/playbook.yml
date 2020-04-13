@@ -24,10 +24,20 @@
         path: "{{ temp_folder }}"
         state: directory
 
+    - name: Create config folder
+      win_file:
+        path: "{{ config_folder }}"
+        state: directory
+
     - name: Copy PowerShell helper scripts to C:\Temp
       win_copy:
         src: PSscripts
         dest: "{{ temp_folder }}"
+
+    - name: Copy Config files to C:\Temp
+      win_copy:
+        src: configFiles
+        dest: C:\Temp
 
     - name: Install Chrome
       win_chocolatey:
@@ -49,6 +59,10 @@
         pip install requests
         pip install azure-mgmt-resource
         pip install msrestazure
+        pip install azure-keyvault-secrets 
+        pip install azure-keyvault-keys
+        pip install azure-keyvault-certificates
+        pip install azure-identity
 
     - name: Add Azure Storage PowerShell module
       win_psmodule:
@@ -95,6 +109,7 @@
       win_shell: C:\Temp\PSscripts\Install-SAPGUI.ps1 -ConnectionString "{{ blob_conn_string }}"
       args:
         creates: "C:\\Program Files (x86)\\SAP"
+      no_log: True
 
     # install Jenkins
     - name: Install Jenkins
@@ -116,4 +131,3 @@
       # install newman
     - name: Install "newmann" node.js package globally.
       win_shell: "npm install -g newman"
-
