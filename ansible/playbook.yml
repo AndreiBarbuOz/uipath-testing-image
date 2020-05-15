@@ -7,9 +7,9 @@
       set_fact:
         demo_folder: 'C:\UiPath\Demos\'
         temp_folder: 'C:\Temp'
+        config_folder: 'C:\UiPath\config\'
         git_repos: "{{ lookup('env','GIT_REPO_SOURCE_TESTING').split(',') }}"
         git_token: "{{ lookup('env', 'GIT_TOKEN') }}"
-        license_code: "{{ lookup('env', 'TESTING_LICENSE_CODE') }}"
         blob_conn_string: "{{ lookup('env', 'BLOB_CONN_STRING') }}"
       no_log: True
 
@@ -24,10 +24,20 @@
         path: "{{ temp_folder }}"
         state: directory
 
+    - name: Create config folder
+      win_file:
+        path: "{{ config_folder }}"
+        state: directory
+
     - name: Copy PowerShell helper scripts to C:\Temp
       win_copy:
         src: PSscripts
         dest: "{{ temp_folder }}"
+
+    - name: Copy Config files to C:\Temp
+      win_copy:
+        src: configFiles
+        dest: C:\Temp
 
     - name: Install Chrome
       win_chocolatey:
@@ -49,25 +59,25 @@
         pip install requests
         pip install azure-mgmt-resource
         pip install msrestazure
+        pip install azure-keyvault-secrets 
+        pip install azure-keyvault-keys
+        pip install azure-keyvault-certificates
+        pip install azure-identity
 
     - name: Add Azure Storage PowerShell module
       win_psmodule:
         name: Azure.Storage
         state: present
 
-    #Download UiPath Studio Pro
-    - name: Get UiPath Pro
-      win_shell: C:\Temp\PSscripts\Get-Robot.ps1 -ConnectionString "{{ blob_conn_string }}"
-      no_log: True
-
     - name: Install UiPath Studio
       win_package:
-        path: C:\Temp\UiPathStudio.msi
+        path: https://download.uipath.com/versions/20.4.1/UiPathStudio.msi
         arguments:
-          - /quiet
-          - ADDLOCAL=DesktopFeature,Robot,Packages,Studio,StartupLauncher,RegisterService,JavaBridge,ChromeExtension
+        - /quiet
+        - ADDLOCAL=DesktopFeature,Robot,Packages,Studio,StartupLauncher,RegisterService,JavaBridge,ChromeExtension
         state: present
-        product_id: "{CCB49257-B726-4570-B9C8-7BA2E6F7438A}"
+        product_id: '{3067A978-2709-4976-8F50-6CD65A1DC380}'
+        log_path: C:\log.txt
 
     - name: Set service startup mode to auto and ensure it is started
       win_service:
@@ -95,6 +105,7 @@
       win_shell: C:\Temp\PSscripts\Install-SAPGUI.ps1 -ConnectionString "{{ blob_conn_string }}"
       args:
         creates: "C:\\Program Files (x86)\\SAP"
+      no_log: True
 
     # install Jenkins
     - name: Install Jenkins
@@ -116,4 +127,3 @@
       # install newman
     - name: Install "newmann" node.js package globally.
       win_shell: "npm install -g newman"
-

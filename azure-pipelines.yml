@@ -41,7 +41,6 @@ stages:
             PACKER_BASE_SKU: '$(packerBaseSKU)'
             PACKER_USERNAME: '$(packerUsername)'
             BLOB_CONN_STRING: '$(blobConnectionString)'
-            TESTING_LICENSE_CODE: '$(testingLicenseCode)'
         - task: CopyFiles@2
           inputs:
             targetFolder: $(Build.ArtifactStagingDirectory)
