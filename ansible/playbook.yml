@@ -55,11 +55,9 @@
     - name: install pip modules
       win_shell: |
         pip install pymongo
-        pip install azure
         pip install requests
+        pip install azure-keyvault-secrets
         pip install azure-mgmt-resource
-        pip install msrestazure
-        pip install azure-keyvault-secrets 
         pip install azure-keyvault-keys
         pip install azure-keyvault-certificates
         pip install azure-identity
