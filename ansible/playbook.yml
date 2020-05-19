@@ -122,6 +122,3 @@
     - name: Reboot the machine with all defaults
       win_reboot:
 
-      # install newman
-    - name: Install "newmann" node.js package globally.
-      win_shell: "npm install -g newman"
